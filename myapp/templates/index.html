@@ -1,0 +1,27 @@
+{% comment %} currently not active this signup page  {% endcomment %}
+
+{% extends 'base.html' %}
+{% block title %}
+Agna // sign out
+{% endblock %}
+{% block title %}Login{% endblock %}
+  
+{% block content %}
+   <h2>Welcome!</h2>
+   {% if user.is_authenticated %}
+      Hi {{ user.username }}!
+      <a href="/signout" class="btn btn-danger">Logout</a>
+    {% else %}
+    <div class="container height">
+      <div class="row ">
+          <div class="col-md-6 offset-md-3 text-center">
+              <h1 class=''>Welcome !</h1>
+              <a href="/signin" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>Login</a> 
+          </div>
+      </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+{% comment %} <a href="/signup" class="btn btn-success">Signup</a> {% endcomment %}
+    {% endif %}
+{% endblock %}

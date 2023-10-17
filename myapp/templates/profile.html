@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}
+Agna // Home
+{% endblock %}
+{% block content %}
+<body class="page"> 
+   {% if user.is_authenticated %}                
+      <div class="container-fluid">
+      <nav class="navbar navbar-expand-sm  navbar-dark justify-content-end">
+        <h2 class="text-light  mr-auto">Welcome  {{ user.username }} ! </h2>
+        <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+          <ul class="navbar-nav text-right">
+            <li class="nav-item dropdown ml-auto mr-1">
+              <a class="nav-link dropdown-toggle link-light " href="#" role="button" data-bs-toggle="dropdown">Whatsapp Message</a>
+              <ul class="dropdown-menu ">
+                <li><a href="/uploaded" class="dropdown-item"> Excel Sheet to Whatsapp</a></li>
+                <li><a href="/whatsapp" class="dropdown-item">data base to Whatsapp</a></li>           
+              </ul>
+            </li>
+            <li class="nav-item active">
+              <a href="/viewlist" class="nav-link"> Import Excel Sheet</a>
+            </li>
+            <li class="nav-item active mr-3">
+              <a href="/adddetails" class="nav-link">Add Contact details</a>
+            </li>
+            <a class="my-2 mx-2 link-secondary disabled-link">Login</a>
+            <a href="/signout" class=" link-danger my-2 mx-2">Logout</a>
+          </ul>
+        </div>
+      </nav>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    </div>   
+    </br></br>
+      <div class="container">
+      <table class="table table-dark table-hover "id="datatable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Number</th>
+                <th>Action</th>                    
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in contact_list %}       
+            <tr>
+                <td>{{ forloop.counter }}</td>                     
+                <td>{{ item.name }}</td>
+                <td>{{ item.number }}</td>
+                <td>
+                    <form method="POST" action="{% url 'edit' %}">
+                      {% csrf_token %}
+                      <input type="hidden"  name="edit"  value="{{ item.id }}">
+                      <input type="submit"  value="Edit"  class='btn btn-info'>
+                    </form>
+                    <form method="POST" action="{% url 'delete' %}">
+                      {% csrf_token %}
+                      <input type="hidden"  name="delete" value="{{ item.id }}">
+                      <input type="submit" onclick="return confirm('Are you sure you want to delete this item?');" value="Delete"  class='btn btn-danger'>
+                    </form>
+              </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <!-- bootstrap5 dataTables js cdn -->
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#datatable').DataTable(
+        );
+      });
+    </script>
+    {% comment %} <div>
+      <a href="#" class="btn btn-danger">Delete all content data</a>
+    </div> {% endcomment %}
+    {% else %}
+    <div class="container height">
+      <div class="row ">
+          <div class="col-md-6 offset-md-3 text-center">
+              <h1 class=''>Welcome !</h1>
+              <a href="/signin" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>Login</a> 
+          </div>
+      </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+{% comment %} <a href="/signup" class="btn btn-success">Signup</a> {% endcomment %}
+    {% endif %}
+  </body>  
+{% endblock %}

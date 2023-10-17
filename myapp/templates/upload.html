@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}
+Agna // Upload excel_file
+{% endblock %} 
+
+{% load static %}
+
+{% block content %}
+<p class="text-danger">{{ error_message }}</p>
+
+   {% if user.is_authenticated %}     
+    <body class="page">   
+        <div class="container heights">
+            <div class="row ">
+                <div class="col-md-6 offset-md-3 mt-5 text-center">
+                   <div class='abcd pt-5 pb-5'>
+                    <h2>Welcome!</h2>
+                    <div class='mt-2 mb-4'>
+                        <object data="your-excel-file.xlsx" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                            <a href='{% static '/images/Get_Json_Data_from_Sheet.xlsx' %}'>download Excel Sheet format</a>.
+                        </object>                  
+                    </div>
+                    <form method="post" enctype="multipart/form-data" action="{% url 'catpillar' %}" class='m-5'>    
+                        {% csrf_token %}
+                        <input type="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="excel_file"  required >
+                        
+                        <button type="submit" class= 'btn btn-primary'>Upload</button>
+                        </br>
+                    </form>
+                    <button type="button" class="btn btn-link "> <a href="/profile">Back</a></button>
+                   </div>
+                </div>
+            </div>
+        </div> 
+</body>
+    {% else %}
+    <div class="container height">
+        <div class="row ">
+            <div class="col-md-6 offset-md-3 text-center">
+                <h1 class=''>Welcome !</h1>
+                <a href="/signin" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>Login</a> 
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-link my-4 "> <a href="/profile">Back</a></button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+  {% comment %} <a href="/signup" class="btn btn-success">Signup</a> {% endcomment %}
+    {% endif %}
+{% endblock %}
